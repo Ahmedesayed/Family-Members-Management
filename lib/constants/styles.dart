@@ -1,0 +1,1 @@
+const double APP_BOTTOM_BAR_RADIUS = 10;

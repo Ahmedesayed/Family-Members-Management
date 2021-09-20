@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "387395101329",
+    "project_id": "family-management-98a71",
+    "storage_bucket": "family-management-98a71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387395101329:android:2e55e38e2dbec791939530",
+        "android_client_info": {
+          "package_name": "com.example.fmm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387395101329-t7f9ov8q05kfnnj67o6bbf74scbqdlue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo9ca9K-bFJjPF2_AipWSw_8KIN_lxGJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387395101329-t7f9ov8q05kfnnj67o6bbf74scbqdlue.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
