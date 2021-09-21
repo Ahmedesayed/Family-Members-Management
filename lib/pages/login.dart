@@ -5,6 +5,8 @@ import 'package:fmm/helpers/app_model.dart';
 import 'package:fmm/helpers/validators.dart';
 import 'package:fmm/main.dart';
 import 'package:fmm/helpers/auth.dart' as AuthService;
+import 'package:fmm/models/colors.dart';
+import 'package:fmm/models/styles.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -16,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
+  bool loading = false;
 
   @override
   void initState() {
@@ -34,81 +37,109 @@ class _LoginPageState extends State<LoginPage> {
   void update() => setState(() => {});
 
   login() async {
+    this.setState(() {
+      loading = true;
+    });
     UserCredential u = await AuthService.login(emailCtrl.text, passCtrl.text);
-    if (u != null) await Navigator.pushNamed(context, '/home');
+    this.setState(() {
+      loading = false;
+    });
+    if (u != null) await Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Welcome to Family Members Management, please sign in.',
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: emailCtrl,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your email',
-                    ),
-                    validator: (input) =>
-                        input.isValidEmail() ? null : "Check your email",
-                  ),
-                  TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      controller: passCtrl,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your password',
-                      ),
-                      validator: (input) => input.isValidPass()
-                          ? null
-                          : "Password shouldn't be less than 6 characters"),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            login();
-                          }
-                        },
-                        child: const Text('Login'),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Don\'t have account?'),
-                          TextButton(
-                            onPressed: () {
-                             Navigator.pushNamed(context, '/signup');
-                            },
-                            child: const Text('Signup'),
-                          ),
-                        ],
-                      ))
-                ],
-              ),
-            )
-          ],
+    return Directionality(
+          textDirection: TextDirection.rtl,
+          child:Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'الدخول',
+            style: CustomStyles.boldText,
+          ),
+          elevation: 0,
+          backgroundColor: CustomColors.bgColor,
         ),
-      ),
-    );
+        body:  Padding(
+              padding: EdgeInsets.fromLTRB(16, 50, 16, 0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'اهلا بكم في تطبيق تحكم افراد العائلة ، برجا التسجيل.',
+                      style: CustomStyles.boldText,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 50),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: emailCtrl,
+                              decoration: const InputDecoration(
+                                hintText: 'البريد الالكتروني',
+                              ),
+                              validator: (input) => input.isValidEmail()
+                                  ? null
+                                  : "البريد الالكتروني غير صحيح",
+                            ),
+                            TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                controller: passCtrl,
+                                obscureText: true,
+                                decoration: const InputDecoration(
+                                  hintText: 'كلمة المرور',
+                                ),
+                                validator: (input) => input.isValidPass()
+                                    ? null
+                                    : "كلمة المرور مكونة من ٦ حروف او ارقام"),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                                child: ElevatedButton(
+                                  onPressed: !loading
+                                      ? () {
+                                          if (_formKey.currentState
+                                              .validate()) {
+                                            login();
+                                          }
+                                        }
+                                      : null,
+                                  child: !loading
+                                      ? const Text('الدخول')
+                                      : CircularProgressIndicator(),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('لا يوجد لديك حساب؟'),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, '/signup');
+                                      },
+                                      child: const Text('إنشاء حساب جديد'),
+                                    ),
+                                  ],
+                                ))
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        ));
   }
 }

@@ -23,10 +23,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Family Members Management',
-      
       theme: ThemeData(
         primarySwatch: Colors.green,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.white,titleTextStyle:CustomStyles.boldText),
+        appBarTheme: AppBarTheme(backgroundColor: Colors.white,titleTextStyle:CustomStyles.boldText,iconTheme:  IconThemeData(color: Colors.black)),
         fontFamily: 'Almarai',
       ),
       routes: <String, WidgetBuilder> {
@@ -34,7 +33,8 @@ class MyApp extends StatelessWidget {
       '/login': (BuildContext context) => LoginPage(),
       '/signup': (BuildContext context) => SignupPage()
     },
-      home: getIt<AppModel>().user != null ? HomePage() : LoginPage(),
+    debugShowCheckedModeBanner: false,
+      home: getIt<AppModel>().user != null ? HomePage() : LoginPage() ,
     );
   }
 }

@@ -2,19 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
-subscribeToAuthChanges() {
-  auth.authStateChanges().listen((User user) {
-    if (user == null) {
-      print('User is currently signed out!');
-    } else {
-      print('User is signed in!');
-    }
-  });
-}
 
 Future<UserCredential> signUp(String email, String pass) async {
   try {
-    UserCredential userCredential = await FirebaseAuth.instance
+    UserCredential userCredential = await auth
         .createUserWithEmailAndPassword(email: email, password: pass);
         return userCredential;
   } on FirebaseAuthException catch (e) {
@@ -32,7 +23,7 @@ Future<UserCredential> signUp(String email, String pass) async {
 
 Future<UserCredential> login(String email, String pass) async {
   try {
-    UserCredential userCredential = await FirebaseAuth.instance
+    UserCredential userCredential = await auth
         .signInWithEmailAndPassword(email: email, password: pass);
         return userCredential;
   } on FirebaseAuthException catch (e) {
@@ -42,5 +33,13 @@ Future<UserCredential> login(String email, String pass) async {
       print('Wrong password provided for that user.');
     }
     return null;
+  }
+}
+
+logout() async{
+  try {
+    await auth.signOut();
+  } catch (e) {
+    print('error in logout $e');
   }
 }

@@ -6,7 +6,10 @@ class CustomColors {
   
   static const primaryColor = Color(0xFF57c08b);
   static const textColor = Color(0xFF414141);
+  static const lightTextColor = Color(0xFFdadbdb);
   static const iconColor = Color(0xFF646464);
+  static const bgColor = Color(0xFFf9fafb);
+  static const deleteBtnColor = Color(0xFFe38155);
 
   static MaterialColor generateMaterialColorFromColor(Color color) {
     return MaterialColor(color.value, {

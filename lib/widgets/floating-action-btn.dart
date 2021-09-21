@@ -32,6 +32,6 @@ class FloatingActionBtn extends StatelessWidget {
                 height: 65.0,
               ),
             )),
-      );;
+      );
   }
 }
